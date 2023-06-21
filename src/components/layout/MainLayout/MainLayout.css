@@ -1,0 +1,14 @@
+@font-face {
+  font-family: Agrandir-Regular;
+  src: url("../../../shared/fonts/Agrandir-Regular.otf") format("opentype");
+}
+
+.full-content {
+  position: relative;
+  min-height: 100vh;
+  font-family: "Agrandir-Regular";
+}
+
+main {
+  height: 100vh;
+}
