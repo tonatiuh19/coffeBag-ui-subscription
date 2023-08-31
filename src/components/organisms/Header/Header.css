@@ -1,0 +1,51 @@
+.main-header {
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  z-index: 1;
+}
+
+.container-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: normal;
+}
+
+.logo {
+  width: 20%;
+}
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+}
+
+.step-text {
+  padding-bottom: 0;
+}
+
+.back {
+  padding-left: 1rem;
+}
+
+.close {
+  padding-right: 1rem;
+}
+
+.button {
+  background-color: white;
+  padding: 0;
+  border: none;
+}
+
+.button-first {
+  cursor: none !important;
+}

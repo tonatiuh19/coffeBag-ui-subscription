@@ -4,11 +4,81 @@
 }
 
 .full-content {
-  position: relative;
-  min-height: 100vh;
   font-family: "Agrandir-Regular";
 }
 
 main {
   height: 100vh;
+  background-color: rgb(255, 255, 255);
+}
+
+.wizard-container {
+  display: flex;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-item {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-item {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer_buttons {
+  bottom: 0;
+  position: absolute;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.button-back-slim {
+  width: 50%;
+  background-color: #c1daff;
+  color: #617ba2;
+  border-radius: 0px;
+  border: 2px solid #c1daff;
+}
+
+.button-next-slim {
+  width: 50%;
+  background-color: #617ba2;
+  color: #c1daff;
+  border-radius: 0px;
+  border: 2px solid #617ba2;
+}
+
+.button-back-full {
+  width: 50%;
+  background-color: #c1daff;
+  color: #617ba2;
+  border-radius: 0px;
+  border: 2px solid #c1daff;
+}
+
+.button-next-full {
+  width: 50%;
+  background-color: #617ba2;
+  color: #c1daff;
+  border-radius: 0px;
+  border: 2px solid #617ba2;
+}
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }

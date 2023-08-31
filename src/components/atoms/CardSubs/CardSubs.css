@@ -1,0 +1,25 @@
+.card-subs-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #617ba2;
+  color: white;
+  border-radius: 1.175rem;
+  border: 2px solid #617ba2;
+  padding: 2rem;
+  width: 100%;
+}
+
+.hr {
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.card-subs-package {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

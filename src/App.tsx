@@ -1,20 +1,22 @@
-import React from "react";
+import React, {
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MainLayout from "./components/layout/MainLayout/MainLayout";
 import WizardLayout from "./components/layout/WizardLayout/WizardLayout";
 import { useWizard, Wizard } from "react-use-wizard";
+import BodyStep from "./components/molecules/BodyStep/BodyStep";
+import FlavorStep from "./components/molecules/FlavorStep/FlavorStep";
+import SubscribeStep from "./components/molecules/SubscribeStep/SubscribeStep";
+import ImageStep from "./components/atoms/ImageStep/ImageStep";
+import SizeStep from "./components/molecules/SizeStep/SizeStep";
+import useResponsive from "./shared/hooks/useResponsive/useResponsive";
 
-const Step = ({ number }: any) => {
-  const { handleStep } = useWizard();
-
-  handleStep(() => {
-    alert(`Going to step ${number}`);
-  });
-
-  return <p>Step {number}</p>;
-};
-
-const StepsHandler = () => {
+const StepsHandler = forwardRef((props: any, ref) => {
   const {
     nextStep,
     previousStep,
@@ -24,47 +26,121 @@ const StepsHandler = () => {
     isLastStep,
     isFirstStep,
   } = useWizard();
+  const [step, setStep] = useState(1);
+  const [mobile, setMobile] = useState(false);
+  const { width } = useResponsive();
 
-  return (
-    <code>
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <p>Has previous step: {!isFirstStep ? "✅" : "⛔"}</p>
-        <br />
-        <p>Has next step: {!isLastStep ? "✅" : "⛔"} </p>
-        <br />
-        <p>
-          Active step: {activeStep + 1} <br />
-        </p>
-        <br />
-        <p>
-          Total steps: {stepCount} <br />
-        </p>
-      </div>
-      <div>
+  const handleStepper = (value: any) => {
+    if (value === "prev") {
+      setStep((step) => step - 1);
+    } else if (value === "next") {
+      setStep((step) => step + 1);
+    }
+
+    props.handleChange(step);
+  };
+
+  useImperativeHandle(ref, () => ({
+    childFunction1() {
+      previousStep();
+      handleStepper("prev");
+    },
+  }));
+
+  const didMount = useRef(false);
+
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
+
+    handleStepper("actual");
+  }, [step]);
+
+  useEffect(() => {
+    if (width < 930) {
+      setMobile(false);
+    } else {
+      setMobile(true);
+    }
+  }, [width]);
+
+  if (isLastStep) {
+    return null;
+  } else {
+    return (
+      <div className="footer_buttons">
         <button
-          onClick={() => previousStep()}
+          className={mobile ? "button-back-slim" : "button-back-full"}
+          onClick={() => {
+            previousStep();
+            handleStepper("prev");
+          }}
           disabled={isLoading || isFirstStep}
         >
           Previous
         </button>
-        <button onClick={() => nextStep()} disabled={isLoading || isLastStep}>
+        <button
+          className={mobile ? "button-next-slim" : "button-next-full"}
+          onClick={() => {
+            nextStep();
+            handleStepper("next");
+          }}
+          disabled={isLoading || isLastStep}
+        >
           Next
         </button>
       </div>
-    </code>
-  );
-};
+    );
+  }
+});
 
 function App() {
+  const [stepper, setStepper] = useState(1);
+  const [mobile, setMobile] = useState(false);
+  const { width } = useResponsive();
+  const childRef = useRef<any>(null);
+
+  const handleChange = (value: any) => {
+    setStepper(value);
+  };
+
+  const handlePreviousStep = (value: any) => {
+    childRef.current.childFunction1();
+  };
+
+  useEffect(() => {
+    if (width < 930) {
+      setMobile(false);
+    } else {
+      setMobile(true);
+    }
+  }, [width]);
+
   return (
-    <MainLayout>
-      <WizardLayout>
-        <Wizard footer={<StepsHandler />}>
-          <Step number={1} />
-          <Step number={2} />
-          <Step number={3} />
-        </Wizard>
-      </WizardLayout>
+    <MainLayout step={stepper} handlePreviousStep={handlePreviousStep}>
+      <div className="wizard-container">
+        {mobile && stepper !== 3 ? (
+          <div className="image-item">
+            <ImageStep step={stepper} />
+          </div>
+        ) : null}
+        <div className="form-item">
+          <WizardLayout>
+            <Wizard
+              footer={
+                <StepsHandler handleChange={handleChange} ref={childRef} />
+              }
+            >
+              <BodyStep />
+              {/*<FlavorStep />*/}
+              <SizeStep />
+              <SubscribeStep />
+            </Wizard>
+          </WizardLayout>
+        </div>
+      </div>
     </MainLayout>
   );
 }
